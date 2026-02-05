@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -39,6 +40,8 @@ public class Main extends ApplicationAdapter {
     // 方便类，封装了 Texture + 位置 + 尺寸 + 旋转 + 颜色等属性
     private Sprite bucketSprite;
 
+    private Vector2 touchPos;
+
     @Override
     public void create() {
         backgroundTexture = new Texture("background.png");
@@ -53,6 +56,8 @@ public class Main extends ApplicationAdapter {
 
         bucketSprite = new Sprite(bucketTexture);
         bucketSprite.setSize(1,1);
+
+        touchPos = new Vector2();
     }
 
     @Override
@@ -79,6 +84,11 @@ public class Main extends ApplicationAdapter {
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             bucketSprite.translateX(-speed * delta);    // 把水桶向左移
         }
+
+        if (Gdx.input.isTouched()) {
+
+        }
+
     }
 
     private void logic() {
