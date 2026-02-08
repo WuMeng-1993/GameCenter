@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -79,20 +80,37 @@ public class Main extends ApplicationAdapter {
         float speed = 4f;
         float delta = Gdx.graphics.getDeltaTime();
 
+        // 键盘右键
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             bucketSprite.translateX(speed * delta);     // 将铲斗向右移动
-        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        }
+        // 键盘左键
+        else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             bucketSprite.translateX(-speed * delta);    // 把水桶向左移
         }
 
         if (Gdx.input.isTouched()) {
+            // 获取触摸坐标
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY());
 
+            // 将单位转换为视口的世界单位
+            viewport.unproject(touchPos);
+
+            // 更改桶的水平居中位置
+            bucketSprite.setCenterX(touchPos.x);
         }
 
     }
 
     private void logic() {
+        // 获取虚拟游戏世界的宽度和高度
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
 
+        float bucketWidth = bucketSprite.getWidth();
+        float bucketHeight = bucketSprite.getHeight();
+
+        bucketSprite.setX(MathUtils.clamp(bucketSprite.getX(), 0, worldWidth - bucketWidth));
     }
 
     private void draw() {
